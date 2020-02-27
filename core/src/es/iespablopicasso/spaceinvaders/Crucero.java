@@ -70,7 +70,7 @@ public class Crucero extends ObjetoVolador {
             img = img2;
             img2 = temporal;
             img2=img3;
-            img3=temporal;
+            img3=temporal;ljdbf
         }
 
 
