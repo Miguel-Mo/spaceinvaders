@@ -50,6 +50,12 @@ public class ControladorJuego {
     //CRUCERO
     Crucero naveGorda;
 
+    //TELETRANSPORTADA
+    teletransportada goku;
+
+    //DISPAROS DE TELETRANSPORTADA
+    DisparoenS ondaVital;
+
     //El estado del teclado
     EstadoTeclado et;
 
@@ -130,6 +136,11 @@ public class ControladorJuego {
 
             naveGorda.pintarse(batch);
 
+            goku.pintarse(batch);
+
+            if (ondaVital!=null){
+            ondaVital.pintarse(batch);}
+
         } else {
             //Pantalla inicial
             dibujarPantallaInicial();
@@ -171,7 +182,13 @@ public class ControladorJuego {
 
         naveGorda.dispose();
 
+        goku.dispose();
 
+        if(ondaVital!=null) {
+            if (ondaVital.getPosY() < 0) {
+                ondaVital.dispose();
+            }
+        }
     }
 
     //Método de control del estado. Es interno. Para ayudar al método render
@@ -216,14 +233,31 @@ public class ControladorJuego {
 
         naveGorda.moverse();
 
+        goku.moverse();
+
+        if(ondaVital!=null){
+            ondaVital.moverse();
+        }
+
+
         //Movemos las naves enemigas
         empire.moverseEnArmonia();
 
-        /*if (Math.random() < TASA_DISPARO_ENEMIGOS) {
+        if (Math.random() < TASA_DISPARO_ENEMIGOS) {
             disparo = empire.disparar();
             if (disparo != null)
                disparosEmpire.crearDisparo(disparo);
-        }*/
+        }
+
+        if (Math.random() < TASA_DISPARO_ENEMIGOS && ondaVital==null) {
+            ondaVital = goku.disparar();
+        }
+
+        if (ondaVital!=null){
+            if(ondaVital.getPosY()<0){
+             ondaVital=null;
+            }
+        }
 
         //Movemos disparos aliados
         disparosAliados.moverse();
@@ -309,6 +343,10 @@ public class ControladorJuego {
         todosAcelerados=new ColeccionAcelerada(Gdx.graphics.getWidth());
 
         naveGorda=new Crucero(Gdx.graphics.getWidth());
+
+        goku=new teletransportada(Gdx.graphics.getWidth() / 2,Gdx.graphics.getHeight()/2,Gdx.graphics.getHeight(),Gdx.graphics.getWidth());
+
+
     }
 
     private void dibujarPantallaInicial() {
@@ -325,6 +363,8 @@ public class ControladorJuego {
         todosAcelerados.pintarse(batch);
 
         naveGorda.pintarse(batch);
+
+        goku.pintarse(batch);
     }
 }
 
